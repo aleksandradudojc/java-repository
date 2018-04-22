@@ -1,0 +1,8 @@
+pl/aleksandradudojc/simpledeserializatinproject/ApplicationRunner.class
+pl/aleksandradudojc/simpledeserializatinproject/utils/Deserializator.class
+pl/aleksandradudojc/simpledeserializatinproject/model/InstagramProfile.class
+pl/aleksandradudojc/simpledeserializatinproject/model/nested/GraphQL.class
+pl/aleksandradudojc/simpledeserializatinproject/utils/FileReader.class
+pl/aleksandradudojc/simpledeserializatinproject/model/nested/node/leafs/EdgeFollowedBy.class
+pl/aleksandradudojc/simpledeserializatinproject/model/nested/node/leafs/EdgeFollow.class
+pl/aleksandradudojc/simpledeserializatinproject/model/nested/node/User.class
