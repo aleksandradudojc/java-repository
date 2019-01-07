@@ -11,35 +11,56 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-/*Klasa główna gry*/
+
+/**
+ *Klasa glowna gry
+ */
 
 public class Controller implements ActionListener, MouseListener, KeyListener {
 
+    /**
+     *Zmienna opisujaca chorobe
+     */
     @Getter
     private String disease;
 
-    /*Zmienna opisująca aktualną scene gry*/
+    /**
+     *Zmienna opisująca aktualną scene gry
+     */
     @Getter @Setter
     private GameScene gameScene;
 
-    /*Obiektu klasy Controller*/
+    /**
+     *Obiektu klasy Controller
+     */
     public static Controller controller;
 
-    /*Obiekt klasy View*/
+
+    /**
+     *Obiekt klasy View
+     */
     private View view;
     private int second;
     private double velX = 0, velY = 0;
 
-    /*Zmienna, przechowująca położenie myszki*/
+
+    /**
+     *Zmienna, przechowujaca polozenie myszki
+     */
     private MouseVector mouseVector;
 
-    /*Konstruktor klasy Controller*/
+    /**
+     *Konstruktor klasy Controller
+     */
     public Controller() {
         createComponents();
         createJFrame();
     }
 
-    /*Stworzenie komponentów gry*/
+
+    /**
+     *Stworzenie komponentow gry
+     */
     private void createComponents() {
         view = new View();
         mouseVector = new MouseVector();
@@ -49,7 +70,10 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
         timer.start();
         }
 
-        /*Tworzenie okna aplikacji oraz nadanie mu rozmiaru*/
+
+    /**
+     *Tworzenie okna aplikacji oraz nadanie mu rozmiaru
+     */
     private void createJFrame() {
         JFrame jframe = new JFrame();
         jframe.add(view);
@@ -62,11 +86,20 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
         jframe.setVisible(true);
     }
 
-    /*Metoda główna*/
+
+    /**
+     *Metoda glowna
+     */
     public static void main(String[] args) {
         controller = new Controller();
     }
 
+
+    /**
+     *Nasluchiwacz akcji
+     *
+     * @param e wydarzenie
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         second++;
@@ -87,7 +120,10 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
         view.repaint();
     }
 
-    /*Ustawienie pozycji gracza*/
+
+    /**
+     *Ustawienie pozycji gracza
+     */
     private void setThePlayerPosition() {
         int x = Player.instance.getPosX();
         int y = Player.instance.getPosY();
@@ -98,7 +134,12 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
         Player.instance.refreshPlayerGraphics();
     }
 
-    /*Metoda określająca akcje po naciśnięciu myszki w danym miejscu*/
+
+
+    /**
+     *Metoda okreslajaca akcje po nacisnieciu myszki w danym miejscu
+     * @param e wydarzenie
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (gameScene == GameScene.MENU) {
@@ -129,7 +170,11 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
     }
 
 
-    /*Metody generowane przy okazji korzystania z ActionListenera*/
+
+    /**
+     *Metody generowane przy okazji korzystania z ActionListenera
+     * @param e wydarzenie
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
     }
@@ -151,7 +196,10 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 
     }
 
-    /*Sterowanie graczem za pomocą strzałek z klawiatury*/
+    /**
+     *Sterowanie graczem za pomocą strzalek z klawiatury
+     * @param e wydarzenie
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -194,7 +242,11 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
         }
     }
 
-    /*Odczytywanie pozycji myszki*/
+
+    /**
+     *Odczytywanie pozycji myszki
+     * @param e wydarzenie
+     */
     private class MouseVector {
         public int getMouseX() {
             return (int) (MouseInfo.getPointerInfo().getLocation().getX() - view.getLocationOnScreen().getX());

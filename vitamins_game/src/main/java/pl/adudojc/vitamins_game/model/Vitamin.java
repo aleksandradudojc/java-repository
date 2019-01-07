@@ -11,21 +11,33 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Klasa Vitamin odpowiedzialna za strukture witamin
+ */
+
 public class Vitamin {
 
-    /*Kształt witaminy*/
+    /**
+     * Ksztalt witaminy
+     */
     @Getter @Setter
     private Rectangle shape;
 
-    /*Pozycja z i pozycja y witaminy*/
+    /**
+     * Pozycja x i pozycja y witaminy
+     */
     @Getter @Setter
     private int posX, posY;
 
-    /*Rozmiar witaminy*/
+    /**
+     * Rozmiar witaminy
+     */
     @Getter
     private int sizeX, sizeY;
 
-    /*Generowane współrzędne, w którzych maja pojawić się współrzedne w grze*/
+    /**
+     * Generowane wspolrzdne, w ktorzych maja pojawic się wspolrzedne w grze
+     */
     private int generatedHeight, generatedWidth;
 
     private Random rand;
@@ -34,28 +46,43 @@ public class Vitamin {
     @Getter
     private VitaminType vitaminType;
 
-    /*Punkty przydzielane w zależności od tego czy witamina jest dobra, czy zła*/
+    /**
+     * Punkty przydzielane w zaleznosci od tego czy witamina jest dobra, czy zla
+     */
     @Getter
     private int points;
     @Getter
 
-    /*Nazwa wylosowanej witaminy witaminy*/
+    /**
+     * Nazwa wylosowanej witaminy
+     */
     private String vitaminName;
 
-    /*Lista dobrych witamin*/
+
+    /**
+     * Lista dobrych witamin
+     * */
     private List<String> goodVitamin = new ArrayList<>();
 
-    /*Lista złych witamin*/
+    /**
+     * Lista złych witamin
+     * */
     private List<String> badVitamin = new ArrayList<>();
 
-    /*Konstruktor klasy Vitamin
-    * Wywołuje metodę initialize*/
+
+    /**
+     Konstruktor klasy Vitamin
+     * Wywołuje metodę initialize
+     * */
     public Vitamin() {
         initialize();
     }
 
 
-    /*Inicjalizacja pojawiającej się w grze witaminy */
+
+    /**
+     * Inicjalizacja pojawiajacej sie w grze witaminy
+     * */
     public void initialize() {
         rand = new Random();
         sizeX = 100;
@@ -72,7 +99,10 @@ public class Vitamin {
     }
 
 
-    /*Losowanie witamin sposród list dobrych oraz złych witamin*/
+
+    /**
+     * Losowanie witamin sposrod list dobrych oraz zlych witamin
+     * */
     private void randomVitaminName() {
         if (vitaminType == vitaminType.GOOD_VITAMIN) {
             int randomizedNumber = rand.nextInt(goodVitamin.size());
@@ -83,7 +113,10 @@ public class Vitamin {
         }
     }
 
-    /*Rozpoznanie i zapisanie do list dobrych i złych witamin, w zależności od choroby*/
+
+    /**
+     * Rozpoznanie i zapisanie do list dobrych i złych witamin, w zależności od choroby
+     * */
     private void recognizeVitaminForDisease() {
         String currentDisease = Controller.controller.getDisease();
 

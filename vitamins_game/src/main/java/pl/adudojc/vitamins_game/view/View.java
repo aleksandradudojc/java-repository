@@ -17,36 +17,60 @@ import java.util.List;
 import java.util.Random;
 
 
-/* Obszar graficzny gry, klasa dziedzicząca po JPanel*/
+/**
+ *Obszar graficzny gry, klasa dziedzicząca po JPanel
+ */
 public class View extends JPanel {
 
-    /*Pierwsza wyświetlana informacja o witaminach*/
+    /**
+     *Pierwsza wyswietlana informacja o witaminach
+     */
     private BufferedImage description1;
-    /*Druga wyświetlana informacja o witaminach*/
+
+    /**
+     *Druga wyswietlana informacja o witaminach
+     */
     private BufferedImage description2;
 
-    /*Pierwszy losowany indeks listy Descriptions*/
+
+    /**
+     *Pierwszy losowany indeks listy Descriptions
+     */
     private int randIndex1;
-    /*Drugi losowany indeks listy Descriptions*/
+
+    /**
+     *Drugi losowany indeks listy Descriptions
+     */
     private int randIndex2;
 
     @Getter
-    /*Nazwa choroby, przypisywanej do danego indeksu losowanego (randIndex1-2)*/
+    /**
+     *Nazwa choroby, przypisywanej do danego indeksu losowanego (randIndex1-2)
+     */
     private String diseaseName;
 
-    /*Lista opisów witamin*/
+
+    /**
+     *Lista opisow witamin
+     */
     private List<BufferedImage> descriptions;
 
-    /*Konstruktor pola graficznego gry
-    * Przypisanie wartości z funkcji randomizeDescriptions do listy descriptions
-    * Wywołanie metody randomDiseaseFromDescriptions*/
+
+    /**
+     *Konstruktor pola graficznego gry
+     * Przypisanie wartosci z funkcji randomizeDescriptions do listy descriptions
+     * Wywolanie metody randomDiseaseFromDescriptions
+     */
     public View() {
         descriptions = randomizeDescriptions();
         randomDiseaseFromDescription();
     }
 
 
-    /*Metoda przypisująca chorobę do danego, wylosowanego indeksu*/
+    /**
+     *Metoda przypisujaca chorobe do danego, wylosowanego indeksu
+     */
+
     public void randomDiseaseFromDescription()
     {
         if(randIndex1 == 0)
@@ -66,7 +90,11 @@ public class View extends JPanel {
     }
 
 
-    /*Metoda losująca wyświetlane na początku gry opisy witamin*/
+    /**
+     * Metoda losujaca wyswietlane na poczatku gry opisy witamin
+     *
+     * @return      lista buforowanych zdjec z opisami witamin
+     */
     public List<BufferedImage> randomizeDescriptions(){
         List<BufferedImage> descriptions = new ArrayList<>();
 
@@ -96,13 +124,24 @@ public class View extends JPanel {
     }
 
 
+
+    /**
+     * Rysowanie komponentow gry
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         repaint(g);
     }
 
-    /*Odświezanie gry*/
+
+    /**
+     * Odświezanie gry
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     */
     public void repaint(Graphics g) {
         if (Controller.controller.getGameScene() == GameScene.MENU) {
             paintMenu(g, 1280, 1024);
@@ -123,7 +162,14 @@ public class View extends JPanel {
     }
 
 
-    /* Porównywanie wylosowanych opisóœ, aby nie zostały wyświetlone dwa takie same */
+    /**
+     * Porownywanie wylosowanych opisow, aby nie zostaly wyswietlone dwa takie same
+     *
+     * @param img1 pierwszy obrazek z opisem
+     * @param img1 drugi obrazek z opisem
+     *
+     * @return wynik porownywania obrazow
+     * */
     private boolean bufferedImagesEqual(BufferedImage img1, BufferedImage img2) {
         if (img1.getWidth() == img2.getWidth() && img1.getHeight() == img2.getHeight()) {
             for (int x = 0; x < img1.getWidth(); x++) {
@@ -138,7 +184,16 @@ public class View extends JPanel {
         return true;
     }
 
-    /*Rysowanie wyglądu pierwszeego ekranu*/
+
+    /**
+     * Rysowanie wygladu pierwszego ekranu
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     * @param displayHeight wysokosc ekranu
+     * @param displayWidth szerokosc ekranu
+     *
+     * @return wynik porownywania obrazow
+     * */
     private void paintVitaminsScreen(Graphics g, int displayWidth, int displayHeight) {
         g.setColor(Color.white);
         g.fillRect(0, 0, displayWidth, displayHeight);
@@ -155,10 +210,17 @@ public class View extends JPanel {
     }
 
 
-    /*Wyświetlanie wylosowanych opisów*/
+
+    /**
+     * Wyświetlanie wylosowanych opisów
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     * @param displayHeight wysokosc ekranu
+     * @param displayWidth szerokosc ekranu
+     *
+     * */
     private void paintDescribes(Graphics g, int displayWidth, int displayHeight) {
         g.drawImage(description1, 100, 100, 676, 172, null);
-        //g.drawImage(description2, 100, 350, 676, 172, null);
 
         boolean bufferedImagesEqual = bufferedImagesEqual(description1, description2);
 
@@ -169,11 +231,17 @@ public class View extends JPanel {
                 description2 = descriptions.get((randIndex2));
             }
         } while (bufferedImagesEqual == true);
-
-
     }
 
-    /*Rysowanie Menu gry*/
+
+    /**
+     * Rysowanie Menu gry
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     * @param displayHeight wysokosc ekranu
+     * @param displayWidth szerokosc ekranu
+     *
+     * */
     private void paintMenu(Graphics g, int displayWidth, int displayHeight) {
 
         g.setColor(Color.white);
@@ -197,14 +265,27 @@ public class View extends JPanel {
     }
 
 
-    /*Rysowanie tła gry*/
+    /**
+     * Rysowanie tla gry
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     * @param displayHeight wysokosc ekranu
+     * @param displayWidth szerokosc ekranu
+     *
+     * */
     private void paintBackground(Graphics g, int displayWidth, int displayHeight) {
         g.setColor(new Color(200, 245, 255));
         g.fillRect(0, 0, displayWidth + 500, displayHeight);
     }
 
 
-    /*Rysowanie glownego ekranu gry*/
+    /**
+     * Rysowanie glownego ekranu gry
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     * @param gameScene scena gry
+     *
+     * */
     private void paintGameplay(Graphics g, GameScene gameScene) {
          if (gameScene == GameScene.GAME) {
             paintScore(g);
@@ -220,46 +301,90 @@ public class View extends JPanel {
         }
     }
 
-    /*Rysowanie zdobytych puntów*/
+
+    /**
+     * Rysowanie zdobytych puntow
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     *
+     * */
     private void paintScore(Graphics g) {
         g.drawString("Score: " + String.valueOf(Player.instance.getScore()), 800, 895);
     }
 
-    /*Rysowanie, ustalonej czcionki*/
+    /**
+     * Rysowanie, ustalonej czcionki
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     *
+     * */
     private void paintScoreFont(Graphics g) {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", 1, 70));
     }
 
-    /*Rysowanie poziomu gry*/
+
+    /**
+     * Rysowanie poziomu gry
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     *
+     * */
     private void paintLevel(Graphics g) {
         g.drawString("Level: " + String.valueOf(Player.instance.getLevel()), 50, 895);
     }
 
-    /*Rysowanie nazwy choroby*/
+
+    /**
+     * Rysowanie nazwy choroby
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     *
+     * */
     private void paintDiseaseInformation(Graphics g) {
         g.drawString(Controller.controller.getDisease(), 200, 100);
         g.setColor(Color.white);
         g.setFont(new Font("Arial", 1, 80));
     }
 
-    /*Rysowanie  witamin*/
+
+    /**
+     * Rysowanie  witamin
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     * @param generatedObjects lista generowanych obiektow
+     *
+     * */
     private void paintVitamins(Graphics g, ArrayList<Vitamin> generatedObjects) {
         generatedObjects.forEach(item -> paintSubstances(g, item.getShape(), item.getVitaminName()));
     }
 
-    /*Rysowanie witamin podczas trwania gry*/
-    private void paintSubstances(Graphics g, Rectangle column, String vitaminName) {
+
+    /**
+     * Rysowanie witamin podczas trwania gry
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     * @param substance obiekt substancji, typu Rectangle
+     *
+     * */
+    private void paintSubstances(Graphics g, Rectangle substance, String vitaminName) {
         BufferedImage image = null;
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/textures/vitamins/" + vitaminName + ".png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        g.drawImage(image, column.x, column.y, column.width, column.height, null);
+        g.drawImage(image, substance.x, substance.y, substance.width, substance.height, null);
     }
 
-    /*Rysowanie gracza/ pacjenta*/
+
+    /**
+     * Rysowanie gracza/ pacjenta
+     *
+     * @param g obiekt odpowiedzialny za grafike
+     * @param player obiekt typu Player
+     *
+     * */
     private void paintPlayer(Graphics g, Player player) {
         BufferedImage image = null;
         try {

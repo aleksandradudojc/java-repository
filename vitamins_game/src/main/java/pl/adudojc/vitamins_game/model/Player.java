@@ -6,30 +6,70 @@ import pl.adudojc.vitamins_game.generator.RuntimeVitaminsGenerator;
 
 import java.awt.*;
 
+/**
+ *Klasa Player, reprezentujaca gracza
+ */
+
 public class Player {
 
-    /*Instancja klasy Player*/
+     /**
+     *instancja klasy Player
+     */
     public static Player instance = new Player();
 
-    /*Kształt gracza*/
+    /**
+     *ksztalt gracza
+     */
     @Getter
     private Rectangle shape;
+
+    /**
+     *pozycja x i y
+     */
     @Getter @Setter
     private int posX, posY;
+
+    /**
+     *szerokosc i wysokosc
+     */
     @Getter
     private int sizeX, sizeY;
+
+    /**
+     *zsumowane punty
+     */
     @Getter @Setter
     private int score;
+
+    /**
+     *poziom gry
+     */
     @Getter @Setter
     private int level = 1;
+
+    /**
+     *poczatkowe x i y
+     */
     private int startX, startY;
+
+    /**
+     *zmienna zliczajaca zebranie niewlasciwej witaminy
+     */
     @Getter @Setter
     int numberOfBadChoices = 0;
 
+    /**
+     *konstruktor klasy Player
+     */
     public Player() {
         createPlayer();
     }
 
+    /**
+     *Tworzenie gracza
+     *
+     * @return ksztalt gracza
+     */
     public Rectangle createPlayer() {
         sizeX = 100;
         sizeY = 100;
@@ -41,18 +81,27 @@ public class Player {
         return shape;
     }
 
-    /*Odświeża pozycje gracza*/
+
+    /**
+     *Odswieza pozycje gracza
+     */
     public void refreshPlayerGraphics() {
         shape = new Rectangle(posX, posY, sizeX, sizeY);
     }
 
-    /*Wykrycie zderzenia gracza z witaminami*/
+
+    /**
+     *Wykrycie zderzenia gracza z witaminami
+     */
     public void detectCollisions() {
         touchVitamin();
     }
 
-    /*Metoda, dzięki której po dotknięciu gracza z witaminą, znika witamina
-    * Dodanie puntów za witaminę*/
+
+    /**
+     *Metoda, dzieki ktorej po dotknieciu gracza z witamina, znika witamina
+     * Dodanie puntow za witamine
+     */
     private void touchVitamin() {
         RuntimeVitaminsGenerator runtimeObjectsGenerator = RuntimeVitaminsGenerator.instance;
         runtimeObjectsGenerator.getVitaminList().forEach(vitamin -> {
@@ -63,7 +112,10 @@ public class Player {
         });
     }
 
-    /*Dodawanie puntów graczowi*/
+
+    /**
+     *Dodawanie puntow graczowi
+     */
     private void addPlayerPoints(Vitamin vitamin) {
         score += vitamin.getPoints();
 
@@ -72,7 +124,7 @@ public class Player {
             numberOfBadChoices++;
         }
 
-        System.out.println(numberOfBadChoices); // wychodzi ok
+        System.out.println(numberOfBadChoices);
         if(score==20 && level<2)
         {
             addPlayerLevel();
@@ -83,6 +135,8 @@ public class Player {
         }
     }
 
-    /*Dodawanie poziomu graczowi*/
+    /**
+     *Dodawanie poziomu graczowi
+     */
     private void addPlayerLevel() { level++; }
 }
