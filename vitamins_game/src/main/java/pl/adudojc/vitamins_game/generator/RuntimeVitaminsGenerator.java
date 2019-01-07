@@ -8,17 +8,22 @@ import java.util.ArrayList;
 
 public class RuntimeVitaminsGenerator {
 
+    /*Obiekt klasy RuntimeVitaminsGenerator*/
     public static RuntimeVitaminsGenerator instance = new RuntimeVitaminsGenerator();
     @Getter
     private ArrayList<Vitamin> vitaminList = new ArrayList<>();
 
-    public void generateMoreVitamins(int ticks, int frequency) {
-        if (ticks % frequency == 0) {
+
+    /*Generowanie witamin w grze*/
+    public void generateMoreVitamins(int second, int freq) {
+        if (second % freq == 0) {
+            vitaminList.add(new Vitamin());
             vitaminList.add(new Vitamin());
             vitaminList.add(new Vitamin());
         }
     }
 
+    /*Usuwanie elementów z listy wygenerowanych witamin, wyczyszczenie gry*/
     public void removeAllGeneratedVitamins() {
         vitaminList.clear();
     }

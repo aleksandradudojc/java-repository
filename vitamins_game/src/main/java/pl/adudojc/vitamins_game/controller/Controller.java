@@ -10,40 +10,46 @@ import pl.adudojc.vitamins_game.view.View;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+
+/*Klasa główna gry*/
 
 public class Controller implements ActionListener, MouseListener, KeyListener {
 
     @Getter
     private String disease;
-    @Getter
-    @Setter
+
+    /*Zmienna opisująca aktualną scene gry*/
+    @Getter @Setter
     private GameScene gameScene;
 
+    /*Obiektu klasy Controller*/
     public static Controller controller;
-    private View view;
-    private int ticks;
-    private double velX = 0, velY = 0;
-    private MouseVector mouseVector;
-    private List<String> diseases = Arrays.asList("Szkorbut", "Osteoporoza", "Kurza slepota");
 
+    /*Obiekt klasy View*/
+    private View view;
+    private int second;
+    private double velX = 0, velY = 0;
+
+    /*Zmienna, przechowująca położenie myszki*/
+    private MouseVector mouseVector;
+
+    /*Konstruktor klasy Controller*/
     public Controller() {
         createComponents();
         createJFrame();
     }
 
+    /*Stworzenie komponentów gry*/
     private void createComponents() {
         view = new View();
         mouseVector = new MouseVector();
-        gameScene = GameScene.GAME;
-        int randIndex = new Random().nextInt(diseases.size());
-        disease = diseases.get((randIndex));
+        gameScene = GameScene.VITAMINSSCREEN;
+        disease = view.getDiseaseName();
         Timer timer = new Timer(10, this);
         timer.start();
-    }
+        }
 
+        /*Tworzenie okna aplikacji oraz nadanie mu rozmiaru*/
     private void createJFrame() {
         JFrame jframe = new JFrame();
         jframe.add(view);
@@ -56,22 +62,32 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
         jframe.setVisible(true);
     }
 
+    /*Metoda główna*/
     public static void main(String[] args) {
         controller = new Controller();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ticks++;
+        second++;
 
         if (gameScene == GameScene.GAME) {
             Player.instance.detectCollisions();
-            RuntimeVitaminsGenerator.instance.generateMoreVitamins(ticks, 40);
+            if (Player.instance.getLevel() == 1) {
+                RuntimeVitaminsGenerator.instance.generateMoreVitamins(second, 40);
+            } else if (Player.instance.getLevel() == 2) {
+                RuntimeVitaminsGenerator.instance.generateMoreVitamins(second, 10);
+            }
+            else if (Player.instance.getLevel() == 3) {
+                RuntimeVitaminsGenerator.instance.generateMoreVitamins(second, 5);
+            }
             setThePlayerPosition();
         }
+
         view.repaint();
     }
 
+    /*Ustawienie pozycji gracza*/
     private void setThePlayerPosition() {
         int x = Player.instance.getPosX();
         int y = Player.instance.getPosY();
@@ -82,16 +98,18 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
         Player.instance.refreshPlayerGraphics();
     }
 
+    /*Metoda określająca akcje po naciśnięciu myszki w danym miejscu*/
     @Override
     public void mousePressed(MouseEvent e) {
         if (gameScene == GameScene.MENU) {
             if ((mouseVector.getMouseX() > 450 && mouseVector.getMouseX() < 800) && (mouseVector.getMouseY() > 400 && mouseVector.getMouseY() < 450)) {
+                view.randomizeDescriptions();
+                view.randomDiseaseFromDescription();
                 Player.instance.createPlayer();
                 RuntimeVitaminsGenerator.instance.removeAllGeneratedVitamins();
                 Player.instance.setScore(0);
-                int randIndex = new Random().nextInt(diseases.size());
-                disease = diseases.get((randIndex));
-                gameScene = GameScene.GAME;
+                Player.instance.setLevel(1);
+                gameScene = GameScene.VITAMINSSCREEN;
             }
 
             if ((mouseVector.getMouseX() > 580 && mouseVector.getMouseX() < 672) && (mouseVector.getMouseY() > 500 && mouseVector.getMouseY() < 544)) {
@@ -101,10 +119,17 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
             if ((mouseVector.getMouseX() > 1124) && (mouseVector.getMouseY() < 60)) {
                 gameScene = GameScene.MENU;
             }
+        } else if (gameScene == GameScene.VITAMINSSCREEN) {
+            if ((mouseVector.getMouseX() > 900 && mouseVector.getMouseX() < 1200) && (mouseVector.getMouseY() < 900)) {
+                view.randomDiseaseFromDescription();
+                disease = view.getDiseaseName();
+                gameScene = GameScene.GAME;
+            }
         }
     }
 
 
+    /*Metody generowane przy okazji korzystania z ActionListenera*/
     @Override
     public void mouseReleased(MouseEvent e) {
     }
@@ -126,6 +151,7 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
 
     }
 
+    /*Sterowanie graczem za pomocą strzałek z klawiatury*/
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -168,6 +194,7 @@ public class Controller implements ActionListener, MouseListener, KeyListener {
         }
     }
 
+    /*Odczytywanie pozycji myszki*/
     private class MouseVector {
         public int getMouseX() {
             return (int) (MouseInfo.getPointerInfo().getLocation().getX() - view.getLocationOnScreen().getX());

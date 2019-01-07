@@ -13,34 +13,55 @@ import java.util.Random;
 
 public class Vitamin {
 
+    /*Kształt witaminy*/
     @Getter @Setter
     private Rectangle shape;
+
+    /*Pozycja z i pozycja y witaminy*/
     @Getter @Setter
     private int posX, posY;
+
+    /*Rozmiar witaminy*/
     @Getter
     private int sizeX, sizeY;
+
+    /*Generowane współrzędne, w którzych maja pojawić się współrzedne w grze*/
     private int generatedHeight, generatedWidth;
+
     private Random rand;
+
+
     @Getter
     private VitaminType vitaminType;
+
+    /*Punkty przydzielane w zależności od tego czy witamina jest dobra, czy zła*/
     @Getter
     private int points;
     @Getter
-    private String textureName;
+
+    /*Nazwa wylosowanej witaminy witaminy*/
+    private String vitaminName;
+
+    /*Lista dobrych witamin*/
     private List<String> goodVitamin = new ArrayList<>();
+
+    /*Lista złych witamin*/
     private List<String> badVitamin = new ArrayList<>();
 
+    /*Konstruktor klasy Vitamin
+    * Wywołuje metodę initialize*/
     public Vitamin() {
         initialize();
     }
 
 
+    /*Inicjalizacja pojawiającej się w grze witaminy */
     public void initialize() {
         rand = new Random();
         sizeX = 100;
         sizeY = 90;
-        generatedHeight = -400 + rand.nextInt(750);
-        generatedWidth = -200 + rand.nextInt(1000);
+        generatedHeight = -300 + rand.nextInt(650);
+        generatedWidth = 200 + rand.nextInt(900);
         vitaminType = vitaminType.randomTypeOfVitamin();
         points = vitaminType.getPointsOfRandomVitaminType(vitaminType);
         recognizeVitaminForDisease();
@@ -51,16 +72,18 @@ public class Vitamin {
     }
 
 
+    /*Losowanie witamin sposród list dobrych oraz złych witamin*/
     private void randomVitaminName() {
         if (vitaminType == vitaminType.GOOD_VITAMIN) {
             int randomizedNumber = rand.nextInt(goodVitamin.size());
-            textureName = goodVitamin.get(randomizedNumber);
+            vitaminName = goodVitamin.get(randomizedNumber);
         } else if (vitaminType == vitaminType.BAD_VITAMIN) {
             int randomizedNumber = rand.nextInt(badVitamin.size());
-            textureName = badVitamin.get(randomizedNumber);
+            vitaminName = badVitamin.get(randomizedNumber);
         }
     }
 
+    /*Rozpoznanie i zapisanie do list dobrych i złych witamin, w zależności od choroby*/
     private void recognizeVitaminForDisease() {
         String currentDisease = Controller.controller.getDisease();
 
